@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://c2opuuewjo3tr"]
+
+[ext_resource type="Shader" uid="uid://d3fe5foy1rjms" path="res://assets/shaders/ui_cursor_mask.gdshader" id="1_tehr1"]
+[ext_resource type="Script" uid="uid://kt61mfm8rg45" path="res://data/ui/triangle_cursor/triangle_cursor.gd" id="2_io2nc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1hmsg"]
+shader = ExtResource("1_tehr1")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4xeut"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6ehxr"]
+resource_local_to_scene = true
+shader = ExtResource("1_tehr1")
+shader_parameter/text_viewport_texture = SubResource("ViewportTexture_4xeut")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pwnjy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0mkt4"]
+resource_local_to_scene = true
+shader = ExtResource("1_tehr1")
+shader_parameter/text_viewport_texture = SubResource("ViewportTexture_pwnjy")
+
+[node name="TriangleCursor" type="Node2D"]
+z_index = 15
+material = SubResource("ShaderMaterial_1hmsg")
+rotation = -0.279253
+script = ExtResource("2_io2nc")
+
+[node name="BackPolygon" type="Polygon2D" parent="."]
+z_index = -10
+material = SubResource("ShaderMaterial_6ehxr")
+position = Vector2(29.0682, 9.38678)
+rotation = 0.183818
+polygon = PackedVector2Array(-147.5, 25.4996, 56.1793, -33.8114, 41.1793, 10.1886)
+
+[node name="FrontPolygon" type="Polygon2D" parent="."]
+material = SubResource("ShaderMaterial_0mkt4")
+position = Vector2(29.9269, 14.5075)
+rotation = 0.219314
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(-145, 27.5, 58, -34.5, 42, 10.5)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="twitch"]

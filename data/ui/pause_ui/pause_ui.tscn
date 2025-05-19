@@ -1,0 +1,358 @@
+[gd_scene load_steps=32 format=3 uid="uid://cdgpjcf0sswem"]
+
+[ext_resource type="Script" uid="uid://hd3bmneaqtru" path="res://data/ui/pause_ui/pause_ui.gd" id="1_kui2b"]
+[ext_resource type="Shader" uid="uid://cfe611yh82nap" path="res://assets/shaders/mix_mask.gdshader" id="2_66eca"]
+[ext_resource type="Material" uid="uid://drjvdq146ek1x" path="res://assets/materials/ui_transitions/double_circular_cut_mask_transition.material" id="2_d6t4o"]
+[ext_resource type="PackedScene" uid="uid://u6m61wrqng7i" path="res://data/ui/pause_ui/background_pause_ui.tscn" id="2_xxg1h"]
+[ext_resource type="Texture2D" uid="uid://bqxvcovifk01a" path="res://assets/textures/ui_menu_opening/frame_1_mask.svg" id="3_sawsj"]
+[ext_resource type="Shader" uid="uid://bvenkafqpkfwr" path="res://assets/shaders/blot_cut_closeup.gdshader" id="3_ttllr"]
+[ext_resource type="Texture2D" uid="uid://k1m35yg8ldcy" path="res://assets/textures/ui_menu_opening/frame_1.svg" id="5_6em5b"]
+[ext_resource type="Material" uid="uid://bvo0r6b2u3tun" path="res://assets/materials/ui_transitions/blot_cut_mask_transition.material" id="5_xxg1h"]
+[ext_resource type="Texture2D" uid="uid://cbu4o7bfgnkno" path="res://assets/textures/ui_menu_opening/frame_2_mask.svg" id="6_bencs"]
+[ext_resource type="PackedScene" uid="uid://cs0hfd1qv72s1" path="res://data/ui/pause_ui/item_menu/item_menu_pause_ui.tscn" id="6_d6t4o"]
+[ext_resource type="Texture2D" uid="uid://cbsdqxb38x18k" path="res://assets/textures/ui_menu_opening/frame_2.svg" id="7_6eg7g"]
+[ext_resource type="Texture2D" uid="uid://dqnrd6g1galw8" path="res://assets/textures/ui_menu_opening/frame_3_mask.svg" id="8_ohca4"]
+[ext_resource type="Texture2D" uid="uid://xj0cs06qtp7x" path="res://assets/textures/ui_menu_opening/frame_3.svg" id="9_h5n6y"]
+[ext_resource type="Texture2D" uid="uid://cxh6gj0d2pex5" path="res://assets/textures/ui_menu_opening/frame_4_mask.svg" id="10_jylty"]
+[ext_resource type="Texture2D" uid="uid://c1pm554k8pso3" path="res://assets/textures/ui_menu_opening/frame_4.svg" id="11_xpek2"]
+[ext_resource type="Texture2D" uid="uid://wn4ncvqqtv77" path="res://assets/textures/ui_menu_opening/frame_5_mask.svg" id="12_mj2qh"]
+[ext_resource type="Texture2D" uid="uid://bjmnewxpjojrt" path="res://assets/textures/ui_menu_opening/frame_5.svg" id="13_bumpf"]
+[ext_resource type="Texture2D" uid="uid://ddvl052pr61j4" path="res://assets/textures/ui_menu_opening/frame_6.svg" id="14_1jha0"]
+[ext_resource type="Texture2D" uid="uid://b5qdmdcgpd6nj" path="res://assets/textures/ui_menu_opening/frame_7.svg" id="15_u01df"]
+[ext_resource type="Texture2D" uid="uid://cm2gai0bvt3qs" path="res://assets/textures/ui_menu_opening/frame_8.svg" id="16_n5mr8"]
+[ext_resource type="Texture2D" uid="uid://bnnnl3x8aywfa" path="res://assets/textures/ui_menu_opening/frame_9.svg" id="17_agalq"]
+[ext_resource type="Texture2D" uid="uid://kn1ni4nyr3bw" path="res://assets/textures/ui_menu_opening/frame_10.svg" id="18_ns0yq"]
+[ext_resource type="PackedScene" uid="uid://dgtg08fo02d7d" path="res://data/ui/pause_ui/main_menu/main_menu_pause_ui.tscn" id="19_n5cv4"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_bujtr"]
+blend_mode = 4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tvw67"]
+resource_local_to_scene = true
+shader = ExtResource("3_ttllr")
+shader_parameter/progress = 0.0
+shader_parameter/center = Vector2(0.26, 0.385)
+shader_parameter/amplitude = 0.1
+shader_parameter/period = 5.0
+shader_parameter/base_rotation = 0.0
+shader_parameter/add_rotation = 0.4
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ngo6q"]
+viewport_path = NodePath("Background/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u1waw"]
+resource_local_to_scene = true
+shader = ExtResource("2_66eca")
+shader_parameter/texture_1 = SubResource("ViewportTexture_ngo6q")
+shader_parameter/mask_texture = ExtResource("3_sawsj")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ni2rp"]
+resource_local_to_scene = true
+shader = ExtResource("2_66eca")
+shader_parameter/texture_1 = SubResource("ViewportTexture_ngo6q")
+shader_parameter/mask_texture = ExtResource("6_bencs")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ihkmh"]
+resource_local_to_scene = true
+shader = ExtResource("2_66eca")
+shader_parameter/texture_1 = SubResource("ViewportTexture_ngo6q")
+shader_parameter/mask_texture = ExtResource("8_ohca4")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_27x3q"]
+resource_local_to_scene = true
+shader = ExtResource("2_66eca")
+shader_parameter/texture_1 = SubResource("ViewportTexture_ngo6q")
+shader_parameter/mask_texture = ExtResource("10_jylty")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eipx3"]
+resource_local_to_scene = true
+shader = ExtResource("2_66eca")
+shader_parameter/texture_1 = SubResource("ViewportTexture_ngo6q")
+shader_parameter/mask_texture = ExtResource("12_mj2qh")
+
+[node name="PauseUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kui2b")
+
+[node name="Background" type="SubViewportContainer" parent="."]
+material = SubResource("CanvasItemMaterial_bujtr")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 3
+
+[node name="SubViewport" type="SubViewport" parent="Background"]
+handle_input_locally = false
+size = Vector2i(640, 360)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="BackgroundPauseUI" parent="Background/SubViewport" instance=ExtResource("2_xxg1h")]
+
+[node name="SubViewport" parent="Background/SubViewport/BackgroundPauseUI/SubViewportContainer" index="0"]
+size = Vector2i(640, 360)
+
+[node name="Caustic1" parent="Background/SubViewport/BackgroundPauseUI/SubViewportContainer/SubViewport" index="3"]
+offset_bottom = -41.0
+
+[node name="Caustic2" parent="Background/SubViewport/BackgroundPauseUI/SubViewportContainer/SubViewport" index="4"]
+custom_minimum_size = Vector2(192, 192)
+offset_left = -248.0
+offset_right = -56.0
+offset_bottom = 176.0
+
+[node name="MainMenu" type="SubViewportContainer" parent="."]
+visible = false
+material = ExtResource("2_d6t4o")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="MainMenu"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 0
+
+[node name="MainMenuPauseUI" parent="MainMenu/SubViewport" node_paths=PackedStringArray("background_ui_viewport") instance=ExtResource("19_n5cv4")]
+background_ui_viewport = NodePath("../../../Background/SubViewport")
+
+[node name="BlotTransition" type="ColorRect" parent="MainMenu/SubViewport"]
+z_index = 50
+material = SubResource("ShaderMaterial_tvw67")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.16027, 0.329393, 0.514597, 1)
+
+[node name="ItemMenu" type="SubViewportContainer" parent="."]
+visible = false
+material = ExtResource("5_xxg1h")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="ItemMenu"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 0
+
+[node name="ItemMenuPauseUI" parent="ItemMenu/SubViewport" node_paths=PackedStringArray("background_ui_viewport") instance=ExtResource("6_d6t4o")]
+background_ui_viewport = NodePath("../../../Background/SubViewport")
+
+[node name="Frames" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Frame1Mask" type="TextureRect" parent="Frames"]
+visible = false
+material = SubResource("ShaderMaterial_u1waw")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_sawsj")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame1" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_6em5b")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame2Mask" type="TextureRect" parent="Frames"]
+visible = false
+material = SubResource("ShaderMaterial_ni2rp")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_bencs")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame2" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_6eg7g")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame3Mask" type="TextureRect" parent="Frames"]
+visible = false
+material = SubResource("ShaderMaterial_ihkmh")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_bencs")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame3" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_h5n6y")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame4Mask" type="TextureRect" parent="Frames"]
+visible = false
+material = SubResource("ShaderMaterial_27x3q")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_bencs")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame4" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_xpek2")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame5Mask" type="TextureRect" parent="Frames"]
+visible = false
+material = SubResource("ShaderMaterial_eipx3")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("12_mj2qh")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame5" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_bumpf")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame6" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_1jha0")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame7" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_u01df")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame8" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_n5mr8")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame9" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("17_agalq")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Frame10" type="TextureRect" parent="Frames"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_ns0yq")
+expand_mode = 3
+stretch_mode = 6
+
+[connection signal="submenu_selected" from="MainMenu/SubViewport/MainMenuPauseUI" to="." method="_on_main_menu_pause_ui_submenu_selected"]
+
+[editable path="Background/SubViewport/BackgroundPauseUI"]

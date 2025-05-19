@@ -1,0 +1,86 @@
+[gd_scene load_steps=7 format=3 uid="uid://cs0hfd1qv72s1"]
+
+[ext_resource type="Script" uid="uid://dxggjikcr2rw8" path="res://data/ui/pause_ui/item_menu/item_menu_pause_ui.gd" id="1_wlex8"]
+[ext_resource type="Texture2D" uid="uid://nwf6efplcxvp" path="res://icon.svg" id="2_5m1t5"]
+[ext_resource type="PackedScene" uid="uid://7jd276bkardh" path="res://data/ui/tooltip_ui/tooltip_ui.tscn" id="3_284pf"]
+[ext_resource type="Texture2D" uid="uid://dd23n8yso2uni" path="res://assets/textures/kenney_input-prompts_1.4/steamdeck_button_b.svg" id="6_islfj"]
+[ext_resource type="FontFile" uid="uid://b4aaxiw3j538g" path="res://assets/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf" id="7_tj0wl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sfq1b"]
+font = ExtResource("7_tj0wl")
+font_size = 32
+outline_size = 4
+outline_color = Color(0, 0, 0, 0.54902)
+shadow_size = 0
+
+[node name="ItemMenuPauseUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wlex8")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0029961, 0.0396909, 0.263844, 0.376471)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_5m1t5")
+
+[node name="TooltipUI" parent="." instance=ExtResource("3_284pf")]
+layout_mode = 1
+title = "There is nothing to do"
+sub_title = "Guide"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TooltipUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -368.0
+offset_top = -53.0
+offset_right = -48.0
+offset_bottom = -13.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = -2
+alignment = 2
+
+[node name="BButton" type="TextureRect" parent="TooltipUI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("6_islfj")
+expand_mode = 3
+
+[node name="Back" type="Label" parent="TooltipUI/HBoxContainer"]
+layout_mode = 2
+text = "Back"
+label_settings = SubResource("LabelSettings_sfq1b")

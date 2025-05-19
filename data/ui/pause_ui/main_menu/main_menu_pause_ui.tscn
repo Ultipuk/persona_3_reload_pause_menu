@@ -1,0 +1,770 @@
+[gd_scene load_steps=27 format=3 uid="uid://dgtg08fo02d7d"]
+
+[ext_resource type="Script" uid="uid://dpqmrv3yonype" path="res://data/ui/pause_ui/main_menu/main_menu_pause_ui.gd" id="1_ns3k1"]
+[ext_resource type="Texture2D" uid="uid://clrnp2tjxybd6" path="res://assets/textures/kenney_input-prompts_1.4/steamdeck_button_a.svg" id="9_3kmt1"]
+[ext_resource type="FontFile" uid="uid://ccm0ekqbubtus" path="res://assets/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf" id="10_3ijqt"]
+[ext_resource type="PackedScene" uid="uid://c2opuuewjo3tr" path="res://data/ui/triangle_cursor/triangle_cursor.tscn" id="11_yxs1g"]
+[ext_resource type="FontFile" uid="uid://b4aaxiw3j538g" path="res://assets/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf" id="12_hhw0l"]
+[ext_resource type="PackedScene" uid="uid://e7m1bdt0v4ur" path="res://assets/models/makoto.gltf" id="13_74fje"]
+[ext_resource type="Texture2D" uid="uid://dd23n8yso2uni" path="res://assets/textures/kenney_input-prompts_1.4/steamdeck_button_b.svg" id="13_aongp"]
+[ext_resource type="Texture2D" uid="uid://dl8rlomfraep6" path="res://assets/textures/makoto_ui_texture.png" id="14_cgpx8"]
+[ext_resource type="Script" uid="uid://dx68wves2oo4j" path="res://data/ui/pause_ui/main_menu/ui_main_menu_option.gd" id="15_6s1bj"]
+[ext_resource type="PackedScene" uid="uid://7jd276bkardh" path="res://data/ui/tooltip_ui/tooltip_ui.tscn" id="15_aongp"]
+[ext_resource type="Material" uid="uid://basn0p842j1ji" path="res://assets/materials/ui_text_ripples.material" id="16_8ohll"]
+
+[sub_resource type="FontVariation" id="FontVariation_rjn7q"]
+base_font = ExtResource("10_3ijqt")
+spacing_glyph = -40
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_op50p"]
+blend_mode = 4
+
+[sub_resource type="Shader" id="Shader_we10a"]
+resource_local_to_scene = true
+code = "shader_type spatial;
+render_mode blend_mix, diffuse_burley, specular_schlick_ggx, unshaded;
+
+uniform float fresnel_thickness = 3.0;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform sampler2D background_texture: source_color;
+
+
+float fresnel(float amount, vec3 normal, vec3 view) {
+	return pow((1.0 - clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0 )), amount);
+}
+
+void fragment() {
+	vec4 background = texture(background_texture, SCREEN_UV);
+	vec4 albedo_tex = texture(texture_albedo, UV);
+
+	float mix_value = albedo_tex.a * (1.0 - albedo_tex.b * fresnel(fresnel_thickness, NORMAL, VIEW));
+
+	ALBEDO = mix(background.rgb, albedo_tex.rgb, mix_value);
+}
+"
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_aongp"]
+viewport_path = NodePath("Background/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_av3hf"]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("Shader_we10a")
+shader_parameter/fresnel_thickness = 12.0
+shader_parameter/texture_albedo = ExtResource("14_cgpx8")
+shader_parameter/background_texture = SubResource("ViewportTexture_aongp")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_040hm"]
+blend_mode = 4
+
+[sub_resource type="FontVariation" id="FontVariation_ovcsy"]
+base_font = ExtResource("10_3ijqt")
+spacing_glyph = -9
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_t1lbw"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_ykimc"]
+colors = PackedColorArray(0.837706, 0.00117574, 0.924495, 1, 1, 0, 1, 0.203922)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8c5ce"]
+gradient = SubResource("Gradient_ykimc")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhw0l"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_aongp"]
+font_size = 38
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_h1qgf"]
+font = ExtResource("12_hhw0l")
+font_size = 32
+outline_size = 4
+outline_color = Color(0, 0, 0, 0.54902)
+shadow_size = 0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ns3k1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_s5651"]
+font = ExtResource("12_hhw0l")
+font_size = 32
+outline_size = 4
+outline_color = Color(0, 0, 0, 0.54902)
+shadow_size = 0
+
+[node name="MainMenuPauseUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ns3k1")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuInfo" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="NiceLeft" type="Polygon2D" parent="MenuInfo"]
+position = Vector2(-120, 0)
+polygon = PackedVector2Array(159, 2135, 1076, -523, -1001, -462, -996, 2252)
+
+[node name="MenuZero" type="Label" parent="MenuInfo"]
+layout_mode = 1
+offset_left = 340.0
+offset_top = -96.0
+offset_right = 566.0
+offset_bottom = 307.0
+rotation = 1.57079
+scale = Vector2(0.9, 1.15)
+theme_override_colors/font_color = Color(0.470076, 0.470076, 0.470076, 1)
+theme_override_fonts/font = SubResource("FontVariation_rjn7q")
+theme_override_font_sizes/font_size = 330
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="MenuIndex" type="Label" parent="MenuInfo"]
+layout_mode = 1
+offset_left = 340.0
+offset_top = 80.0
+offset_right = 474.0
+offset_bottom = 483.0
+rotation = 1.57079
+scale = Vector2(0.9, 1.15)
+theme_override_colors/font_color = Color(0.470076, 0.470076, 0.470076, 1)
+theme_override_fonts/font = SubResource("FontVariation_rjn7q")
+theme_override_font_sizes/font_size = 330
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="MenuName" type="Label" parent="MenuInfo"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 340.0
+offset_top = -751.0
+offset_right = 1172.0
+offset_bottom = -348.0
+grow_vertical = 0
+rotation = 1.57079
+scale = Vector2(0.95, 1.15)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = SubResource("FontVariation_rjn7q")
+theme_override_font_sizes/font_size = 330
+text = "MAIN"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TriangleCursor" parent="." node_paths=PackedStringArray("sub_viewport_texture") instance=ExtResource("11_yxs1g")]
+visible = false
+position = Vector2(1648, 416)
+sub_viewport_texture = NodePath("../Options/SubViewport")
+
+[node name="Character" type="SubViewportContainer" parent="."]
+material = SubResource("CanvasItemMaterial_op50p")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Character"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Scene" parent="Character/SubViewport" instance=ExtResource("13_74fje")]
+
+[node name="Makoto" parent="Character/SubViewport/Scene" index="0"]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -0.1, 0, -0.02)
+
+[node name="Body" parent="Character/SubViewport/Scene/Makoto/Skeleton3D" index="0"]
+material_override = SubResource("ShaderMaterial_av3hf")
+
+[node name="Options" type="SubViewportContainer" parent="."]
+material = SubResource("CanvasItemMaterial_040hm")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Options"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Options" type="Control" parent="Options/SubViewport"]
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CURSOR_DUMMY" type="Label" parent="Options/SubViewport/Options"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -169.179
+offset_top = -204.608
+offset_right = 42.82
+offset_bottom = -100.608
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.429316
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(105.999, 52)
+script = ExtResource("15_6s1bj")
+metadata/_custom_type_script = "uid://dx68wves2oo4j"
+
+[node name="Skill" type="Label" parent="Options/SubViewport/Options"]
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -169.179
+offset_top = -204.608
+offset_right = 42.821
+offset_bottom = -100.608
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.429316
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(106, 52)
+theme_override_colors/font_color = Color(0.415686, 0.901961, 0.984314, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "SKILL"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.415686, 0.901961, 0.984314, 1)
+
+[node name="Item" type="Label" parent="Options/SubViewport/Options"]
+z_index = -1
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -121.953
+offset_top = -147.912
+offset_right = 69.0471
+offset_bottom = -43.912
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.160379
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(95.5, 52)
+theme_override_colors/font_color = Color(0.0431373, 0.784314, 1, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "ITEM"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.0431373, 0.784314, 1, 1)
+
+[node name="Equip" type="Label" parent="Options/SubViewport/Options"]
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -167.945
+offset_top = -94.058
+offset_right = 79.0549
+offset_bottom = 9.94196
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.31299
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(123.5, 52)
+theme_override_colors/font_color = Color(0.415686, 0.901961, 0.984314, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "EQUIP"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.415686, 0.901961, 0.984314, 1)
+
+[node name="Persona" type="Label" parent="Options/SubViewport/Options"]
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.445
+offset_top = -36.058
+offset_right = 164.555
+offset_bottom = 67.942
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.304384
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(192.5, 52)
+theme_override_colors/font_color = Color(0.407843, 1, 0.988235, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "PERSONA"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.407843, 1, 0.988235, 1)
+
+[node name="Stats" type="Label" parent="Options/SubViewport/Options"]
+z_index = -1
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -134.0
+offset_top = 29.5001
+offset_right = 105.0
+offset_bottom = 133.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.0313244
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(119.5, 52)
+theme_override_colors/font_color = Color(0.0470588, 0.796078, 1, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "STATS"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.0470588, 0.796078, 1, 1)
+
+[node name="Quest" type="Label" parent="Options/SubViewport/Options"]
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -193.5
+offset_top = 92.4883
+offset_right = 69.5
+offset_bottom = 196.488
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.219295
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(131.5, 51.9999)
+theme_override_colors/font_color = Color(0.407843, 0.909804, 0.988235, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "QUEST"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.407843, 0.909804, 0.988235, 1)
+
+[node name="SocialLink" type="Label" parent="Options/SubViewport/Options"]
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -173.5
+offset_top = 138.5
+offset_right = 304.5
+offset_bottom = 242.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.131078
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(239, 52)
+theme_override_colors/font_color = Color(0.407843, 0.992157, 0.976471, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "SOCIAL LINK"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.407843, 0.992157, 0.976471, 1)
+
+[node name="Calendar" type="Label" parent="Options/SubViewport/Options"]
+z_index = -1
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -217.0
+offset_top = 206.0
+offset_right = 219.0
+offset_bottom = 310.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.02642
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(218, 52)
+theme_override_colors/font_color = Color(0.407843, 0.909804, 0.988235, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "CALENDAR"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.407843, 0.909804, 0.988235, 1)
+
+[node name="System" type="Label" parent="Options/SubViewport/Options"]
+z_index = -2
+material = ExtResource("16_8ohll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -145.0
+offset_top = 283.0
+offset_right = 165.0
+offset_bottom = 387.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.217786
+scale = Vector2(0.82, 1)
+pivot_offset = Vector2(155, 52)
+theme_override_colors/font_color = Color(0.0431373, 0.796078, 0.984314, 1)
+theme_override_fonts/font = SubResource("FontVariation_ovcsy")
+theme_override_font_sizes/font_size = 84
+text = "SYSTEM"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("15_6s1bj")
+base_color = Color(0.0431373, 0.796078, 0.984314, 1)
+
+[node name="Confetti" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 6.0
+offset_right = 3.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Polygon2D" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(376.977, 555.561)
+scale = Vector2(1.333, 1.333)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(1.7, 1.7)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-8.08256, 3.81805, 5.84025, 1.797, 7.41009, -1.34733, -13.472, -6.96089)
+uv = PackedVector2Array(-8.98289, 3.36846, 4.26623, 1.79653, 6.96097, -3.36839, -13.9212, -8.98195)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(397.977, 527.561)
+scale = Vector2(1.333, 1.333)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(14.6021, -17.2917, 12.5971, -6.08938, -6.30595, 6.2703, 2.47575, -17.2917)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(416.977, 1002.56)
+scale = Vector2(1.333, 1.333)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-8.62193, -8.52787, 3.16994, -17.3278, 11.8433, 8.68379, 1.90991, 9.09187)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(309.977, 952.561)
+scale = Vector2(1.333, 1.333)
+color = Color(1, 1, 1, 0.545098)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-10.7778, -20.6616, 20.4363, -17.0686, 4.49239, 10.777, -10.7778, 11.0015)
+
+[node name="Polygon2D5" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(66, 658)
+rotation = -3.07439
+scale = Vector2(1.333, 1.333)
+color = Color(0.649134, 1, 0.897885, 1)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(4.4915, -15.0449, 14.5968, -10.3291, 10.5547, 15.72, -14.3717, 5.39016)
+
+[node name="Polygon2D6" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(223.977, 769.561)
+scale = Vector2(1.333, 1.333)
+color = Color(0.972918, 0.591815, 0.4326, 0.878431)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(2.02177, -7.86114, 7.18668, -5.61553, -1.34666, 11.002, -11.2274, 8.53184)
+
+[node name="Polygon2D7" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(52.9767, 800.727)
+rotation = -3.07979
+scale = Vector2(1.333, 1.333)
+color = Color(0.176471, 0.811765, 0.666667, 0.580392)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(7.85974, -30.5411, 25.151, -22.0078, 22.0071, 26.0484, -1.12272, 11.6764)
+
+[node name="Polygon2D8" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(43.9767, 839.727)
+rotation = -5.66954
+scale = Vector2(1.333, 1.333)
+color = Color(0.176471, 0.811765, 0.666667, 0.498039)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(7.85974, -30.5411, 25.151, -22.0078, 22.0071, 26.0484, -1.12272, 11.6764)
+
+[node name="Polygon2D9" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(74.9767, 899.727)
+scale = Vector2(1.333, 1.333)
+color = Color(0.301961, 0.760784, 0.831373, 0.211765)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-19.7635, -19.0889, -1.57407, -19.7626, 2, 11, -6, 10)
+
+[node name="Polygon2D10" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(151.977, 1045.56)
+scale = Vector2(1.333, 1.333)
+color = Color(1, 1, 1, 0.447059)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-25.9596, -5.41164, -6.44523, -6.64673, 23.1969, 0.516778, -4.4691, 9.16239)
+
+[node name="Polygon2D11" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(241.977, 1023.56)
+scale = Vector2(1.333, 1.333)
+color = Color(0.541176, 0.847059, 0.482353, 0.352941)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-14.593, -16.407, 18.407, -7.40702, 7.40702, 20.593, -9.59298, 13.593)
+
+[node name="Polygon2D12" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(195.977, 499.561)
+scale = Vector2(1.333, 1.333)
+color = Color(0.945098, 0.14902, 0.223529, 0.788235)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-1.77011, -10.4748, 24.7183, -2.03896, -3.11984, -2.88254, -13.2428, -8.95633)
+
+[node name="Polygon2D13" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(499.977, 444.561)
+scale = Vector2(1.333, 1.333)
+color = Color(1, 1, 1, 0.764706)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-0.448972, -13.6996, 23.3545, -13.9242, -6.06301, 9.87932, -7.8595, 1.57055)
+
+[node name="Polygon2D14" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(595.977, 529.561)
+scale = Vector2(1.333, 1.333)
+color = Color(1, 1, 1, 0.635294)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(5, -4, 12, -14, 24, 13, 7, 12)
+
+[node name="Polygon2D15" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(702.977, 455.561)
+scale = Vector2(1.333, 1.333)
+color = Color(1, 1, 1, 0.564706)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(7, -19, 32, -12, 7, 15, -6, 10)
+
+[node name="Polygon2D16" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(572.977, 763.561)
+scale = Vector2(1.333, 1.333)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-3, -9, 9, -6, 2, 11, -6, 10)
+
+[node name="Polygon2D17" type="Polygon2D" parent="Confetti"]
+material = SubResource("CanvasItemMaterial_t1lbw")
+position = Vector2(270, 119)
+scale = Vector2(1.333, 1.333)
+texture = SubResource("GradientTexture2D_8c5ce")
+texture_offset = Vector2(9.55, 9.26)
+texture_scale = Vector2(2.87, 2.87)
+texture_rotation = -1.85005
+polygon = PackedVector2Array(-3, -9, 9, -6, 2, 11, -6, 10)
+
+[node name="Wallet" type="Panel" parent="."]
+layout_mode = 1
+offset_left = 157.0
+offset_top = 57.0
+offset_right = 406.0
+offset_bottom = 161.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hhw0l")
+
+[node name="Yen" type="Label" parent="Wallet"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 2.0
+offset_right = 44.0
+offset_bottom = 69.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "¥"
+
+[node name="Amount" type="Label" parent="Wallet"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 10.0
+offset_right = 192.0
+offset_bottom = 63.0
+text = "999,999"
+label_settings = SubResource("LabelSettings_aongp")
+
+[node name="Info" type="Label" parent="Wallet"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 58.0
+offset_right = 129.0
+offset_bottom = 81.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "current wallet"
+
+[node name="TooltipUI" parent="." instance=ExtResource("15_aongp")]
+layout_mode = 1
+title = "Use a Skill"
+sub_title = "Command"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TooltipUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -368.0
+offset_top = -53.0
+offset_right = -48.0
+offset_bottom = -13.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = -2
+alignment = 2
+
+[node name="AButton" type="TextureRect" parent="TooltipUI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("9_3kmt1")
+expand_mode = 3
+
+[node name="Confirm" type="Label" parent="TooltipUI/HBoxContainer"]
+layout_mode = 2
+text = "Confirm"
+label_settings = SubResource("LabelSettings_h1qgf")
+
+[node name="VSeparator" type="VSeparator" parent="TooltipUI/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ns3k1")
+
+[node name="BButton" type="TextureRect" parent="TooltipUI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("13_aongp")
+expand_mode = 3
+
+[node name="Back" type="Label" parent="TooltipUI/HBoxContainer"]
+layout_mode = 2
+text = "Close"
+label_settings = SubResource("LabelSettings_s5651")
+
+[editable path="Character/SubViewport/Scene"]

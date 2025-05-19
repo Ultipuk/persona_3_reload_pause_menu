@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://7jd276bkardh"]
+
+[ext_resource type="Script" uid="uid://brepfdhmjob7j" path="res://data/ui/tooltip_ui/tooltip_ui.gd" id="1_788ty"]
+[ext_resource type="FontFile" uid="uid://b4aaxiw3j538g" path="res://assets/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf" id="2_3nw3a"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_788ty"]
+font = ExtResource("2_3nw3a")
+font_size = 32
+outline_size = 4
+outline_color = Color(0, 0, 0, 0.54902)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_3nw3a"]
+outline_size = 4
+outline_color = Color(0, 0, 0, 0.54902)
+shadow_size = 0
+
+[node name="TooltipUI" type="Control"]
+z_index = 100
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_788ty")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+offset_left = -120.0
+offset_top = -120.0
+offset_right = -49.0
+offset_bottom = -80.0
+pivot_offset = Vector2(71, 40)
+text = "Title"
+label_settings = SubResource("LabelSettings_788ty")
+
+[node name="SubTitle" type="Label" parent="."]
+layout_mode = 2
+offset_left = -120.0
+offset_top = -80.0
+offset_bottom = -40.0
+text = "Sub ────────────────────────────────────────────────────────────────────────────"
+label_settings = SubResource("LabelSettings_3nw3a")
+clip_text = true

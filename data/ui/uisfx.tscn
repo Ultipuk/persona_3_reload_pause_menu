@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=3 uid="uid://52t1863gyc7u"]
+
+[ext_resource type="Script" uid="uid://c281r5ibe5pgl" path="res://data/ui/uisfx.gd" id="1_fpq8e"]
+[ext_resource type="AudioStream" uid="uid://d2ftgjavvcd6i" path="res://assets/sounds/ui/splash.wav" id="2_oulf8"]
+[ext_resource type="AudioStream" uid="uid://w1qmkmwrqk12" path="res://assets/sounds/ui/menu1.wav" id="3_0ow7t"]
+[ext_resource type="AudioStream" uid="uid://dryp320uh1a18" path="res://assets/sounds/ui/plum_softening.wav" id="4_oulf8"]
+[ext_resource type="AudioStream" uid="uid://dcydp8kmtxd8j" path="res://assets/sounds/ui/bubbles.wav" id="5_oulf8"]
+
+[node name="UISFX" type="Node"]
+script = ExtResource("1_fpq8e")
+
+[node name="Select" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_oulf8")
+pitch_scale = 4.0
+
+[node name="Move" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_0ow7t")
+
+[node name="Cancel" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_oulf8")
+pitch_scale = 0.9
+
+[node name="OpenPause" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_oulf8")
+volume_db = 10.0
+pitch_scale = 1.7

@@ -1,0 +1,230 @@
+[gd_scene load_steps=33 format=3 uid="uid://u6m61wrqng7i"]
+
+[ext_resource type="Shader" uid="uid://yq8ugk5kirt2" path="res://assets/shaders/color_mapping.gdshader" id="1_jgdag"]
+[ext_resource type="Script" uid="uid://c4418261dc1ab" path="res://data/ui/pause_ui/background_pause_ui.gd" id="1_vywnj"]
+[ext_resource type="Shader" uid="uid://cbgka5qhroq86" path="res://assets/shaders/distortion.gdshader" id="3_2xhm7"]
+[ext_resource type="Shader" uid="uid://b4bf3knlcor8d" path="res://assets/shaders/bubbles_caustics_canvas.gdshader" id="4_d73xn"]
+[ext_resource type="Texture2D" uid="uid://jg7y5o2ql6bj" path="res://assets/textures/caustic_1_mask.png" id="5_j8351"]
+[ext_resource type="Shader" uid="uid://brfy48mtsimwp" path="res://assets/shaders/caustics_canvas.gdshader" id="6_kluir"]
+[ext_resource type="Texture2D" uid="uid://ca4ucddch0oy4" path="res://assets/textures/caustic_2_mask.png" id="7_5xdig"]
+[ext_resource type="Shader" uid="uid://bc4tcygd6k4o8" path="res://assets/shaders/gaussian_blur.gdshader" id="8_vywnj"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jgdag"]
+blend_mode = 4
+
+[sub_resource type="Gradient" id="Gradient_4ldcb"]
+interpolation_mode = 1
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0, 0.308943, 0.479675, 0.768293, 0.813008)
+colors = PackedColorArray(0.0235294, 0.0392157, 0.168627, 1, 0.0470588, 0.0705882, 0.298039, 1, 0.105882, 0.219608, 0.941176, 1, 0.2, 0.317647, 1, 1, 0.988235, 0.996078, 0.996078, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8ux41"]
+gradient = SubResource("Gradient_4ldcb")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1d2s1"]
+shader = ExtResource("1_jgdag")
+shader_parameter/gradient_texture = SubResource("GradientTexture1D_8ux41")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6103p"]
+shader = ExtResource("3_2xhm7")
+shader_parameter/amplitude = 0.02
+shader_parameter/speed = 0.5
+shader_parameter/wave_length = 0.08
+
+[sub_resource type="Gradient" id="Gradient_3ijqt"]
+offsets = PackedFloat32Array(0, 0.278107, 0.763314, 1)
+colors = PackedColorArray(0.389287, 0.389287, 0.389287, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.252028, 0.252028, 0.252028, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xf5e8"]
+gradient = SubResource("Gradient_3ijqt")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_yxs1g"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_icaa8"]
+noise_type = 5
+frequency = 0.0222
+fractal_octaves = 4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xf5e8"]
+seamless = true
+color_ramp = SubResource("Gradient_yxs1g")
+noise = SubResource("FastNoiseLite_icaa8")
+
+[sub_resource type="Gradient" id="Gradient_74fje"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cgpx8"]
+noise_type = 2
+fractal_octaves = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8ux41"]
+seamless = true
+color_ramp = SubResource("Gradient_74fje")
+noise = SubResource("FastNoiseLite_cgpx8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6s1bj"]
+shader = ExtResource("4_d73xn")
+shader_parameter/pattern_texture = SubResource("NoiseTexture2D_8ux41")
+shader_parameter/pattern_mask_texture = ExtResource("5_j8351")
+shader_parameter/bubbles_texture = SubResource("NoiseTexture2D_xf5e8")
+shader_parameter/bubbles_mask_texture = SubResource("GradientTexture2D_xf5e8")
+shader_parameter/color = Color(0.330744, 0.928507, 0.91891, 0.254902)
+shader_parameter/velocity_main = Vector2(0, -0.07)
+shader_parameter/velocity_second = Vector2(0, 0.1)
+shader_parameter/velocity_bubbles = Vector2(0, 0.13)
+shader_parameter/scale_main = Vector2(0.5, 0.5)
+shader_parameter/scale_second = Vector2(1, 4)
+shader_parameter/scale_bubbles = Vector2(1.6, 0.9)
+shader_parameter/cut = 0.79
+shader_parameter/updates_per_second = 6
+
+[sub_resource type="Gradient" id="Gradient_8ohll"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w4med"]
+noise_type = 3
+frequency = 0.0023
+fractal_octaves = 4
+fractal_lacunarity = 2.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_uorgs"]
+height = 1024
+seamless = true
+color_ramp = SubResource("Gradient_8ohll")
+noise = SubResource("FastNoiseLite_w4med")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kjbag"]
+shader = ExtResource("6_kluir")
+shader_parameter/pattern_texture = SubResource("NoiseTexture2D_uorgs")
+shader_parameter/mask_texture = ExtResource("7_5xdig")
+shader_parameter/color = Color(0.586847, 0.888213, 0.939245, 0.470588)
+shader_parameter/velocity_main = Vector2(0, -0.1)
+shader_parameter/velocity_second = Vector2(0, 0.25)
+shader_parameter/scale_main = Vector2(1, 1)
+shader_parameter/scale_second = Vector2(1, 2)
+shader_parameter/cut = 0.48
+shader_parameter/updates_per_second = 6
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vywnj"]
+shader = ExtResource("8_vywnj")
+shader_parameter/sigma = 1.4
+
+[sub_resource type="Gradient" id="Gradient_8ux41"]
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0, 0.0746269, 1)
+colors = PackedColorArray(0, 0.061078, 0.42898, 1, 0, 0.027451, 0.486275, 0.784314, 0.065489, 0.263216, 0.962575, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jva1b"]
+gradient = SubResource("Gradient_8ux41")
+fill_from = Vector2(1, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3edtv"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_1hmsg"]
+interpolation_color_space = 2
+offsets = PackedFloat32Array(0.467626, 1)
+colors = PackedColorArray(0.282353, 0.427451, 0.866667, 0, 0, 0.988235, 0.94902, 0.392157)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_7xis2"]
+gradient = SubResource("Gradient_1hmsg")
+fill_from = Vector2(1, 1)
+
+[node name="BackgroundPauseUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vywnj")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("CanvasItemMaterial_jgdag")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_1d2s1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Distortion" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_6103p")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tint" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.498039, 0.823529, 0.823529)
+
+[node name="Caustic1" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_6s1bj")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -162.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Caustic2" type="ColorRect" parent="SubViewportContainer/SubViewport"]
+material = SubResource("ShaderMaterial_kjbag")
+custom_minimum_size = Vector2(256, 256)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -688.0
+offset_top = -16.0
+offset_right = -176.0
+offset_bottom = 496.0
+grow_horizontal = 0
+
+[node name="Blur" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vywnj")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GradientDark" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_jva1b")
+
+[node name="GradientLight" type="TextureRect" parent="."]
+material = SubResource("CanvasItemMaterial_3edtv")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_7xis2")
