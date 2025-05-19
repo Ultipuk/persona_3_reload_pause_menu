@@ -4,7 +4,11 @@
 
 The text below is not a guide, but rather a collection of unordered notes. The project contains a lot of lazy solutions and hardcoded logic. My goal wasn't to make a reference-quality project, but to learn how to work with UI in Godot. I was inspired by the pause menu interface from *Persona 3 Reload*, and that’s what I ended up recreating.
 
-![[other/p3r-ui.mp4]]
+### Demonstration
+
+[![Video on YouTube](https://img.youtube.com/vi/PL8FhfQNRS4/maxresdefault.jpg)](https://www.youtube.com/watch?v=PL8FhfQNRS4)
+
+[Video in repo.](other/p3r-ui.mp4)
 
 ### References:
 
