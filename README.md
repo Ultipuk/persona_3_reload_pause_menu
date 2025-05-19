@@ -8,7 +8,7 @@ The text below is not a guide, but rather a collection of unordered notes. The p
 
 [![Video on YouTube](https://img.youtube.com/vi/PL8FhfQNRS4/maxresdefault.jpg)](https://www.youtube.com/watch?v=PL8FhfQNRS4)
 
-[Video in repo.](other/p3r-ui.mp4)
+This image is a YouTube link actually. [Video in repo.](other/p3r-ui.mp4)
 
 ### References:
 
