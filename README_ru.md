@@ -4,9 +4,14 @@
 
 Текст ниже это не гайд, а заметки в разном порятке. В проекте много ленивых вещей и хардкода. Моей целью было не сделать референсный проект, а научиться работать с UI в Godot. А вдохновил меня на это интерфейс паузы из _Persona 3 Reload_. Собственно, главное меню паузы я и сделал.
 
-![[other/p3r-ui.mp4]]
+### Демонстрация
 
-Референсы:
+[![Video on YouTube](https://img.youtube.com/vi/PL8FhfQNRS4/maxresdefault.jpg)](https://www.youtube.com/watch?v=PL8FhfQNRS4)
+
+[Video in repo.](other/p3r-ui.mp4)
+
+### Референсы
+
 - За звуки спасибо [graaveaty](https://www.youtube.com/@graaveaty).
 - 3D модель Макото взял [отсюда](https://sketchfab.com/3d-models/makoto-yukiminato-arisato-persona-3-85308017127c43e991e646fa5c32b71d).
 - Картинки клавиш сделал вездесущий [Kenney](https://www.kenney.nl/).
