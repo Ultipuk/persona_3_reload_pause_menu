@@ -1,6 +1,6 @@
 # Persona 3 Reload. Pause Menu UI
 
-[Русская версия.](README_ru.md)
+[Русская версия](README_ru.md)
 
 The text below is not a guide, but rather a collection of unordered notes. The project contains a lot of lazy solutions and hardcoded logic. My goal wasn't to make a reference-quality project, but to learn how to work with UI in Godot. I was inspired by the pause menu interface from *Persona 3 Reload*, and that’s what I ended up recreating.
 
@@ -8,7 +8,7 @@ The text below is not a guide, but rather a collection of unordered notes. The p
 
 https://github.com/user-attachments/assets/808a1fa9-906e-4ff7-bc77-a09012825039
 
-[Watch on YouTube]([other/p3r-ui.mp4](https://www.youtube.com/watch?v=PL8FhfQNRS))
+[Watch on YouTube](https://www.youtube.com/watch?v=PL8FhfQNRS4)
 
 ### References:
 
