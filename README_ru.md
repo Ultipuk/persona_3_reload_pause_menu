@@ -6,9 +6,9 @@
 
 ### Демонстрация
 
-[![Видео на YouTube](https://img.youtube.com/vi/PL8FhfQNRS4/maxresdefault.jpg)](https://www.youtube.com/watch?v=PL8FhfQNRS4)
+https://github.com/user-attachments/assets/808a1fa9-906e-4ff7-bc77-a09012825039
 
-Картинка выше это на самом деле ссылка на YouTube. [Видео в репе.](other/p3r-ui.mp4)
+[Смотреть на YouTube]([other/p3r-ui.mp4](https://www.youtube.com/watch?v=PL8FhfQNRS4))
 
 ### Референсы
 
